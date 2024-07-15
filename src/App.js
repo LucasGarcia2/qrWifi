@@ -8,7 +8,6 @@ import qr1 from './qrs/qr1.png';
 import qr2 from './qrs/qr2.png';
 import qr3 from './qrs/qr3.png';
 // Importar hasta 20 imágenes de QR
-// import qr4 from './qrs/qr4.png';
 // ...
 
 const QRCodeSwitcher = () => {
@@ -43,7 +42,7 @@ const QRCodeSwitcher = () => {
   }, [qrCodes, sendTelegramNotification]);
 
   useEffect(() => {
-    const intervalId = setInterval(switchQRCode, 1 * 60 * 1000); // Cambia cada 1 minuto
+    const intervalId = setInterval(switchQRCode, 30 * 60 * 1000); // Cambia cada 30 minutos
     return () => clearInterval(intervalId);
   }, [switchQRCode]);
 
@@ -60,7 +59,7 @@ const App = () => {
       <header className="app-header">
         <img src={logo} alt="San Juan Innova Logo" className="app-logo" />
         <div className="app-title-container">
-          <h1 className="app-title">San Juan Innova</h1>
+          <h1 className="app-title">San Juan Innova S.E</h1>
           <p className="app-welcome-message">Bienvenido al portal de conexión WiFi.</p>
         </div>
       </header>
