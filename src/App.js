@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 import logo from './assets/logo.png';
@@ -21,10 +21,10 @@ const QRCodeSwitcher = () => {
 
   const [currentQRIndex, setCurrentQRIndex] = useState(0);
 
-  const switchQRCode = () => {
+  const switchQRCode = useCallback(() => {
     setCurrentQRIndex((prevIndex) => (prevIndex + 1) % qrCodes.length);
     sendTelegramNotification();
-  };
+  }, [qrCodes.length]);
 
   const sendTelegramNotification = async () => {
     const botToken = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
@@ -44,7 +44,7 @@ const QRCodeSwitcher = () => {
   useEffect(() => {
     const intervalId = setInterval(switchQRCode, 10 * 60 * 1000); // Cambia cada 1 minuto
     return () => clearInterval(intervalId);
-  }, [switchQRCode]); // Agregar switchQRCode al array de dependencias
+  }, [switchQRCode]);
 
   return (
     <div className="qr-code-container">
