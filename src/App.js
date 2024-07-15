@@ -26,7 +26,7 @@ const QRCodeSwitcher = () => {
     sendTelegramNotification();
   }, [qrCodes.length]);
 
-  const sendTelegramNotification = async () => {
+  const sendTelegramNotification = useCallback(async () => {
     const botToken = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
     const chatId = process.env.REACT_APP_TELEGRAM_CHAT_ID;
     const message = `El código QR ha cambiado. Nuevo código: ${qrCodes[currentQRIndex]}`;
@@ -39,7 +39,7 @@ const QRCodeSwitcher = () => {
     } catch (error) {
       console.error('Error al enviar la notificación a Telegram', error);
     }
-  };
+  }, [qrCodes, currentQRIndex]);
 
   useEffect(() => {
     const intervalId = setInterval(switchQRCode, 10 * 60 * 1000); // Cambia cada 1 minuto
