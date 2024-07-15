@@ -44,7 +44,7 @@ const QRCodeSwitcher = () => {
   useEffect(() => {
     const intervalId = setInterval(switchQRCode, 10 * 60 * 1000); // Cambia cada 1 minuto
     return () => clearInterval(intervalId);
-  }, []);
+  }, [switchQRCode]); // Agregar switchQRCode al array de dependencias
 
   return (
     <div className="qr-code-container">
