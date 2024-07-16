@@ -21,10 +21,10 @@ const QRCodeSwitcher = () => {
 
   const [currentQRIndex, setCurrentQRIndex] = useState(0);
 
-  const sendTelegramNotification = useCallback(async () => {
+  const sendTelegramNotification = useCallback(async (index) => {
     const botToken = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
     const chatId = process.env.REACT_APP_TELEGRAM_CHAT_ID;
-    const message = `El código QR ha cambiado. Nuevo código: ${qrCodes[currentQRIndex]}`;
+    const message = `El código QR ha cambiado. Nuevo código: ${qrCodes[index]}`;
 
     try {
       await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -34,17 +34,20 @@ const QRCodeSwitcher = () => {
     } catch (error) {
       console.error('Error al enviar la notificación a Telegram', error);
     }
-  }, [qrCodes, currentQRIndex]);
+  }, [qrCodes]);
 
   const switchQRCode = useCallback(() => {
     setCurrentQRIndex((prevIndex) => (prevIndex + 1) % qrCodes.length);
-    sendTelegramNotification();
-  }, [qrCodes, sendTelegramNotification]);
+  }, [qrCodes]);
 
   useEffect(() => {
-    const intervalId = setInterval(switchQRCode, 30 * 60 * 1000); // Cambia cada 30 minutos
+    const intervalId = setInterval(switchQRCode, 5 * 60 * 1000); // Cambia cada 5 minutos
     return () => clearInterval(intervalId);
   }, [switchQRCode]);
+
+  useEffect(() => {
+    sendTelegramNotification(currentQRIndex);
+  }, [currentQRIndex, sendTelegramNotification]);
 
   return (
     <div className="qr-code-container">
