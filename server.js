@@ -43,8 +43,8 @@ const switchQRCode = () => {
   sendTelegramNotification(currentQRIndex);
 };
 
-// Iniciar el temporizador para cambiar el código QR cada X minutos
-setInterval(switchQRCode, 5 * 60 * 1000);
+// Iniciar el temporizador para cambiar el código QR cada 45 minutos
+setInterval(switchQRCode, 45 * 60 * 1000);
 
 // Servir archivos estáticos de la carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
