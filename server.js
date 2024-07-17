@@ -44,7 +44,7 @@ const switchQRCode = () => {
 };
 
 // Iniciar el temporizador para cambiar el código QR cada 45 minutos
-setInterval(switchQRCode, 45 * 60 * 1000);
+setInterval(switchQRCode, 5 * 60 * 1000);
 
 // Servir archivos estáticos de la carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));

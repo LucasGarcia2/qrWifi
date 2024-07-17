@@ -17,7 +17,7 @@ const QRCodeSwitcher = () => {
     };
 
     fetchCurrentQR();
-    const intervalId = setInterval(fetchCurrentQR, 45 * 60 * 1000); // Actualiza cada 45 minutos
+    const intervalId = setInterval(fetchCurrentQR, 5 * 60 * 1000); // Actualiza cada 5 minutos
 
     return () => clearInterval(intervalId);
   }, []);
