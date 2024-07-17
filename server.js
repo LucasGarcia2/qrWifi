@@ -8,9 +8,16 @@ const port = process.env.PORT || 5000;
 
 // Rutas de los códigos QR
 const qrCodes = [
-  '/qrs/InnovaQR1.png',
-  '/qrs/InnovaQR2.png',
-  '/qrs/InnovaQR3.png',
+  '/qrs/QR-Clientes1.png',
+  '/qrs/QR-Clientes2.png',
+  '/qrs/QR-Clientes3.png',
+  '/qrs/QR-Clientes4.png',
+  '/qrs/QR-Clientes5.png',
+  '/qrs/QR-Clientes6.png',
+  '/qrs/QR-Clientes7.png',
+  '/qrs/QR-Clientes8.png',
+  '/qrs/QR-Clientes9.png',
+  '/qrs/QR-Clientes10.png',
   // ... hasta 20 códigos QR
 ];
 
