@@ -1,9 +1,14 @@
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
 require('dotenv').config();
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 const port = process.env.PORT || 5000;
 
 // Rutas de los códigos QR
@@ -41,27 +46,24 @@ const sendTelegramNotification = async (index) => {
 const switchQRCode = () => {
   currentQRIndex = (currentQRIndex + 1) % qrCodes.length;
   sendTelegramNotification(currentQRIndex);
+  io.emit('qrCodeChanged', qrCodes[currentQRIndex]);
 };
 
-// Iniciar el temporizador para cambiar el código QR cada 45 minutos
-setInterval(switchQRCode, 5 * 60 * 1000);
+// Iniciar el temporizador para cambiar el código QR cada 5 minutos
+setInterval(switchQRCode, 1 * 60 * 1000);
 
-// Servir archivos estáticos de la carpeta 'public'
+// Servir archivos estáticos de la carpeta 'public' y 'build'
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Servir archivos estáticos de la carpeta 'build'
 app.use(express.static(path.join(__dirname, 'build')));
 
-// API para obtener el código QR actual
 app.get('/current-qr', (req, res) => {
   res.json({ qrCode: qrCodes[currentQRIndex] });
 });
 
-// Manejar todas las demás rutas y devolver el archivo index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });

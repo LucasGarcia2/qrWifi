@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import io from 'socket.io-client';
 import './App.css';
 import logo from './assets/logo.png';
 
@@ -17,9 +18,17 @@ const QRCodeSwitcher = () => {
     };
 
     fetchCurrentQR();
-    const intervalId = setInterval(fetchCurrentQR, 5 * 60 * 1000); // Actualiza cada 5 minutos
 
-    return () => clearInterval(intervalId);
+    const socket = io();
+    socket.on('qrCodeChanged', (newQRCode) => {
+      setCurrentQR(newQRCode);
+      // Recargar la página para reflejar el nuevo QR
+      window.location.reload();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
